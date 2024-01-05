@@ -47,6 +47,13 @@ class TestMusicFileSync(unittest.TestCase):
         self.update_files_mock.assert_called_once_with("destination_dir", [])
 
 
+    def test_filters_should_be_propagated_to_get_source_file_list(self):
+        self.get_source_file_list_mock.return_value = ["file1.mp3", "file2.mp3"]
+        self.update_files_mock.return_value = ["file1.mp3", "file2.mp3"]
+        
+        assert sync("source_dir", "destination_dir", {"genre":"rock"}) == (["file1.mp3", "file2.mp3"], [])
+
+        self.get_source_file_list_mock.assert_called_once_with("source_dir", {"genre":"rock"})
+        
     # More tests:
     # - filtering conditions to be propagated to source_file_lister
-#
