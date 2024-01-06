@@ -18,7 +18,7 @@ class TestMusicFileSync(unittest.TestCase):
     def test_empty_source_and_destination_will_give_no_updates_or_deletes(self):
         self.update_files_mock.return_value = []
         
-        assert sync("source_dir", "destination_dir") == ([], [])
+        self.assertEqual(sync("source_dir", "destination_dir"), ([], []))
 
         self.update_files_mock.assert_called_once_with("destination_dir", [])
 
@@ -26,7 +26,7 @@ class TestMusicFileSync(unittest.TestCase):
         self.get_source_file_list_mock.return_value = ["aFile.mp3"]
         self.update_files_mock.return_value = ["aFile.mp3"]
 
-        assert sync("source_dir", "destination_dir") == (["aFile.mp3"], [])
+        self.assertEqual(sync("source_dir", "destination_dir"), (["aFile.mp3"], []))
 
         self.update_files_mock.assert_called_once_with("destination_dir", ["aFile.mp3"])
 
@@ -34,7 +34,7 @@ class TestMusicFileSync(unittest.TestCase):
         self.get_source_file_list_mock.return_value = ["file1.mp3", "file2.mp3", "file3.mp3"]
         self.update_files_mock.return_value = ["file1.mp3", "file2.mp3", "file3.mp3"]
 
-        assert sync("source_dir", "destination_dir") == (["file1.mp3", "file2.mp3", "file3.mp3"], [])
+        self.assertEqual(sync("source_dir", "destination_dir"), (["file1.mp3", "file2.mp3", "file3.mp3"], []))
 
         self.update_files_mock.assert_called_once_with("destination_dir", ["file1.mp3", "file2.mp3", "file3.mp3"])
 
@@ -42,7 +42,7 @@ class TestMusicFileSync(unittest.TestCase):
         self.update_files_mock.return_value = []
         self.delete_nonexisting_files_mock.return_value = ["file1.mp3", "file2.mp3", "file3.mp3"]
 
-        assert sync("source_dir", "destination_dir") == ([], ["file1.mp3", "file2.mp3", "file3.mp3"])
+        self.assertEqual(sync("source_dir", "destination_dir"), ([], ["file1.mp3", "file2.mp3", "file3.mp3"]))
 
         self.update_files_mock.assert_called_once_with("destination_dir", [])
 
@@ -51,9 +51,9 @@ class TestMusicFileSync(unittest.TestCase):
         self.get_source_file_list_mock.return_value = ["file1.mp3", "file2.mp3"]
         self.update_files_mock.return_value = ["file1.mp3", "file2.mp3"]
         
-        assert sync("source_dir", "destination_dir", {"genre":"rock"}) == (["file1.mp3", "file2.mp3"], [])
+        self.assertEqual(sync("source_dir", "destination_dir", {"genre":"rock"}), (["file1.mp3", "file2.mp3"], []))
 
         self.get_source_file_list_mock.assert_called_once_with("source_dir", {"genre":"rock"})
         
     # More tests:
-    # - filtering conditions to be propagated to source_file_lister
+    # - filtering conditions to be propagated to source_file_liste
