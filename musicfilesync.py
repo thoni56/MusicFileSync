@@ -1,4 +1,7 @@
-from source_file_lister import get_source_file_list
+import glob
+import os
+
+from metadata_filterer import metadata_filter
 from updater import update_files
 from cleaner import delete_nonexisting_files
 
@@ -16,7 +19,8 @@ def sync(source, destination, file_filters=None):
         the second list contains the files that has been removed from
         the destination directory.
     """
-    source_files = get_source_file_list(source, file_filters)
-    updated_files = update_files(destination, source_files)
+    source_files = glob.glob(os.path.join(source, "**", "*"), recursive=True)
+    filtered_files = metadata_filter(source_files, file_filters)
+    updated_files = update_files(destination, filtered_files)
     deleted_files = delete_nonexisting_files(destination, source_files)
     return (updated_files, deleted_files)
