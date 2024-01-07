@@ -15,8 +15,17 @@ def filter_on_metadata(files, metadata_filter):
                     except AttributeError:
                         continue
                     else:
-                        if (actual_value == expected_value):
+                        if (matching(actual_value, expected_value)):
                             filtered_files.append(file)
         return filtered_files
     else:
         return files
+    
+def matching(actual_value, expected_value):
+    if expected_value is None:
+        return False
+    if isinstance(actual_value, str):
+        actual_value = actual_value.lower()
+    if isinstance(expected_value, str):
+        expected_value = expected_value.lower()
+    return actual_value == expected_value
