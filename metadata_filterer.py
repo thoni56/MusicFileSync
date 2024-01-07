@@ -1,20 +1,29 @@
+import shutil
 from tinytag import TinyTag as tinytag
+
+def clear_line():
+    terminal_width = shutil.get_terminal_size((80, 20)).columns
+    print(' ' * terminal_width, end='\r')
 
 def filter_on_metadata(files, metadata_filter):
     if (metadata_filter != {} and files != []):
         filtered_files = []
-        for file in files:
+        for n, file in enumerate(files):
+            clear_line()
+            print(f"Filtering file {n+1} of {len(files)}: {file}", end='\r')
             try:
                 metadata = tinytag.get(file)
             except:
                 print("METADATA: Could not read metadata for file: " + file)
             else:
-                if any(matching(getattr(metadata, tagname, None), expected_value) 
+                if any(matching(getattr(metadata, tagname, None), expected_value)
                         for tagname, expected_value in metadata_filter.items()):
                     filtered_files.append(file)
+        clear_line()
         return filtered_files
     else:
         return files
+
     
 def matching(actual_value, expected_value):
     if actual_value == None:

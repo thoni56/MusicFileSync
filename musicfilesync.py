@@ -20,14 +20,21 @@ def sync(source, destination, metadata_filters=None):
         the second list contains the files that has been removed from
         the destination directory because they did not exist in the source.
     """
+    print(f"Searching for files in '{source}'.")
     source_files = get_all_source_files(source)
     source_files = remove_non_audio_files(source_files)
+    print(f"Found {len(source_files)} audio files in source directory.")
+
     source_files = filter_on_metadata(source_files, metadata_filters)
+    print(f"Filtered out {len(source_files)} files based on metadata.")
 
     source_files = make_relative(source_files, source)
 
     updated_files = update_files(source, source_files, destination)
+    print(f"Updated {len(updated_files)} files.")
+
     deleted_files = delete_nonexisting_files(destination, source_files)
+    print(f"Deleted {len(deleted_files)} files.")
 
     return (updated_files, deleted_files)
 
@@ -46,8 +53,4 @@ def remove_non_audio_files(files):
 
 
 if __name__ == "__main__":
-    (updated, deleted) = sync("/home/thoni/Music", "/tmp/bugg", {"genre": ["bugg", "boogie"]})
-    print("Updated files:")
-    print(updated)
-    print("Deleted files:")
-    print(deleted)
+    (updated, deleted) = sync("/mnt/junovagen.music", "/tmp/bugg", {"genre": ["bugg", "boogie", "lindy", "wcs", "foxtrot"]})
