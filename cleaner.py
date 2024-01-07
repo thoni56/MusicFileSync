@@ -7,12 +7,12 @@ def delete_nonexisting_files(destination, source_files):
     deleted_files = []
 
     # Iterate through files in the destination directory
-    for file in pathlib.Path(destination).glob('*'):
+    for file in pathlib.Path(destination).glob('**/*'):
         if file.is_file():
             relative_file = file.relative_to(destination)
             if not file_in_source(relative_file, source_files):
                 file.unlink()
-                deleted_files.append(file.name)
+                deleted_files.append(str(relative_file))
     
     remove_empty_directories(destination)
 
