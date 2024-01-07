@@ -17,6 +17,9 @@ class TestMusicFileSync(unittest.TestCase):
         self.patcher_for_delete_nonexisting_files = patch("musicfilesync.delete_nonexisting_files")
         self.delete_nonexisting_files_mock = self.patcher_for_delete_nonexisting_files.start()
         self.delete_nonexisting_files_mock.return_value = []
+        self.patcher_for_os_isfile = patch("musicfilesync.os.path.isfile")
+        self.os_isfile_mock = self.patcher_for_os_isfile.start()
+        self.os_isfile_mock.return_value = True
 
     def test_empty_source_and_destination_will_give_no_updates_or_deletes(self):
         self.update_files_mock.return_value = []

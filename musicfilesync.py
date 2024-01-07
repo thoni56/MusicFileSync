@@ -19,8 +19,20 @@ def sync(source, destination, file_filters=None):
         the second list contains the files that has been removed from
         the destination directory.
     """
-    source_files = glob.glob(os.path.join(source, "**", "*"), recursive=True)
+    source_files = [f for f in glob.glob(os.path.join(source, "**", "*"), recursive=True) if os.path.isfile(f)]
+    source_files = remove_non_audio_files(source_files)
     filtered_files = metadata_filter(source_files, file_filters)
     updated_files = update_files(destination, filtered_files)
     deleted_files = delete_nonexisting_files(destination, source_files)
     return (updated_files, deleted_files)
+
+def remove_non_audio_files(files):
+    audio_extensions = [".mp3", ".wav", ".flac", ".ogg", ".m4a", ".aac"]
+    return [f for f in files if os.path.splitext(f)[1] in audio_extensions]
+
+if __name__ == "__main__":
+    (updated, deleted) = sync("/home/thoni/Music", "/tmp/bugg", {"genre": "bugg"})
+    print("Updated files:")
+    print(updated)
+    print("Deleted files:")
+    print(deleted)

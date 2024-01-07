@@ -1,14 +1,22 @@
-import audio_metadata
+from tinytag import TinyTag as tinytag
 
 def metadata_filter(files, metadata_filter):
     if (metadata_filter != {} and files != []):
         filtered_files = []
         for file in files:
-            metadata = audio_metadata.load(file)
-            for tagname, expected_value in metadata_filter.items():
-                actual_value = getattr(metadata.tag, tagname, [])
-                if (actual_value[0] == expected_value):
-                    filtered_files.append(file)
+            try:
+                metadata = tinytag.get(file)
+            except:
+                print("METADATA: Could not read metadata for file: " + file)
+            else:
+                for tagname, expected_value in metadata_filter.items():
+                    try:
+                        actual_value = getattr(metadata, tagname, [])
+                    except AttributeError:
+                        continue
+                    else:
+                        if (actual_value == expected_value):
+                            filtered_files.append(file)
         return filtered_files
     else:
         return files
