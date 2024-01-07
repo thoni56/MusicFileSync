@@ -1,6 +1,6 @@
 from tinytag import TinyTag as tinytag
 
-def metadata_filter(files, metadata_filter):
+def filter_on_metadata(files, metadata_filter):
     if (metadata_filter != {} and files != []):
         filtered_files = []
         for file in files:

@@ -1,11 +1,11 @@
 import glob
 import os
 
-from metadata_filterer import metadata_filter
+from metadata_filterer import filter_on_metadata
 from updater import update_files
 from cleaner import delete_nonexisting_files
 
-def sync(source, destination, file_filters=None):
+def sync(source, destination, metadata_filters=None):
     """
     Syncs the source directory with the destination directory.
 
@@ -21,9 +21,9 @@ def sync(source, destination, file_filters=None):
     """
     source_files = get_all_source_files(source)
     source_files = remove_non_audio_files(source_files)
-    source_files = metadata_filter(source_files, file_filters)
+    source_files = filter_on_metadata(source_files, metadata_filters)
 
-    source_files = strip_leading_path(source_files, source)
+    source_files = make_relative(source_files, source)
 
     updated_files = update_files(source, source_files, destination)
     deleted_files = delete_nonexisting_files(destination, source_files)
@@ -35,7 +35,7 @@ def get_all_source_files(path):
     return [f for f in glob.glob(os.path.join(path, "**", "*"), recursive=True) if os.path.isfile(f)]
 
 
-def strip_leading_path(files, path):
+def make_relative(files, path):
     return [f.replace(path + '/', '') for f in files]
 
 

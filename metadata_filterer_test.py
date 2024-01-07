@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 
-from metadata_filterer import metadata_filter
+from metadata_filterer import filter_on_metadata
 
 class TestMetadataFiltererTest(unittest.TestCase):
 
@@ -12,10 +12,10 @@ class TestMetadataFiltererTest(unittest.TestCase):
         pass
 
     def test_returns_no_files_if_no_files(self):
-        self.assertEqual(metadata_filter([], {}), [])
+        self.assertEqual(filter_on_metadata([], {}), [])
 
     def test_returns_all_files_with_no_filter(self):
-        self.assertEqual(metadata_filter(["a", "b", "c"], {}), ["a", "b", "c"])
+        self.assertEqual(filter_on_metadata(["a", "b", "c"], {}), ["a", "b", "c"])
 
     def test_return_only_files_with_matching_single_metadata(self):
         metadata_for_a = MagicMock()
@@ -29,4 +29,4 @@ class TestMetadataFiltererTest(unittest.TestCase):
 
         self.tinytag_get_mock.side_effect = [metadata_for_a, metadata_for_b, metadata_for_c]
 
-        self.assertEqual(metadata_filter(["a", "b", "c"], {"artist": "a"}), ["a"])
+        self.assertEqual(filter_on_metadata(["a", "b", "c"], {"artist": "a"}), ["a"])
