@@ -12,12 +12,13 @@ def sync(source, destination, metadata_filters=None):
     Arguments:
         source (str): The source directory.
         destination (str): The destination directory.
+        metadata_filters (dict): A dictionary of metadata filters.
 
     Returns:
         (list, list): A tuple of lists. The first list contains the
         files that has been added to the destination directory, and
         the second list contains the files that has been removed from
-        the destination directory.
+        the destination directory because they did not exist in the source.
     """
     source_files = get_all_source_files(source)
     source_files = remove_non_audio_files(source_files)
@@ -45,7 +46,7 @@ def remove_non_audio_files(files):
 
 
 if __name__ == "__main__":
-    (updated, deleted) = sync("/home/thoni/Music", "/tmp/bugg", {"genre": "Bugg"})
+    (updated, deleted) = sync("/home/thoni/Music", "/tmp/bugg", {"genre": "bugg"})
     print("Updated files:")
     print(updated)
     print("Deleted files:")

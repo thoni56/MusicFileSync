@@ -19,14 +19,31 @@ class TestMetadataFiltererTest(unittest.TestCase):
 
     def test_return_only_files_with_matching_single_metadata(self):
         metadata_for_a = MagicMock()
-        metadata_for_a.artist = ["a"]
+        metadata_for_a.artist = "a"
 
         metadata_for_b = MagicMock()
-        metadata_for_b.artist = ["b"]
+        metadata_for_b.artist = "b"
 
         metadata_for_c = MagicMock()
-        metadata_for_c.artist = ["c"]
+        metadata_for_c.artist = "c"
+
 
         self.tinytag_get_mock.side_effect = [metadata_for_a, metadata_for_b, metadata_for_c]
 
         self.assertEqual(filter_on_metadata(["a", "b", "c"], {"artist": "a"}), ["a"])
+
+    
+    def test_return_only_files_with_matching_ored_metadata(self):
+        metadata_for_a = MagicMock()
+        metadata_for_a.artist = "a"
+
+        metadata_for_b = MagicMock()
+        metadata_for_b.artist = "b"
+
+        metadata_for_c = MagicMock()
+        metadata_for_c.artist = "c"
+
+
+        self.tinytag_get_mock.side_effect = [metadata_for_a, metadata_for_b, metadata_for_c]
+
+        self.assertEqual(filter_on_metadata(["a", "b", "c"], {"artist": ["a", "b"]}), ["a", "b"])
