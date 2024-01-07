@@ -19,19 +19,33 @@ def sync(source, destination, file_filters=None):
         the second list contains the files that has been removed from
         the destination directory.
     """
-    source_files = [f for f in glob.glob(os.path.join(source, "**", "*"), recursive=True) if os.path.isfile(f)]
+    source_files = get_all_source_files(source)
     source_files = remove_non_audio_files(source_files)
-    filtered_files = metadata_filter(source_files, file_filters)
-    updated_files = update_files(destination, filtered_files)
+    source_files = metadata_filter(source_files, file_filters)
+
+    source_files = strip_leading_path(source_files, source)
+
+    updated_files = update_files(source, source_files, destination)
     deleted_files = delete_nonexisting_files(destination, source_files)
+
     return (updated_files, deleted_files)
+
+
+def get_all_source_files(path):
+    return [f for f in glob.glob(os.path.join(path, "**", "*"), recursive=True) if os.path.isfile(f)]
+
+
+def strip_leading_path(files, path):
+    return [f.replace(path + '/', '') for f in files]
+
 
 def remove_non_audio_files(files):
     audio_extensions = [".mp3", ".wav", ".flac", ".ogg", ".m4a", ".aac"]
     return [f for f in files if os.path.splitext(f)[1] in audio_extensions]
 
+
 if __name__ == "__main__":
-    (updated, deleted) = sync("/home/thoni/Music", "/tmp/bugg", {"genre": "bugg"})
+    (updated, deleted) = sync("/home/thoni/Music", "/tmp/bugg", {"genre": "Bugg"})
     print("Updated files:")
     print(updated)
     print("Deleted files:")
