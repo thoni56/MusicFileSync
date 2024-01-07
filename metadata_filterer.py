@@ -17,21 +17,25 @@ def filter_on_metadata(files, metadata_filter):
         return files
     
 def matching(actual_value, expected_value):
+    if actual_value == None:
+        return False
+    
     # Convert actual_value to lowercase if it's a string
     if isinstance(actual_value, str):
-        actual_value = actual_value.lower()
+        actual_value = actual_value.lower().split('+')
 
-    # If expected_value is a list, compare actual_value with each item in the list
-    if isinstance(expected_value, list):
-        # Convert each item in expected_value to lowercase
-        expected_value = [item.lower() for item in expected_value]
-        return actual_value in expected_value
-
-    # If expected_value is a string, convert it to lowercase and compare
-    elif isinstance(expected_value, str):
+    # Convert expected_value to lowercase if it's a string
+    if isinstance(expected_value, str):
         expected_value = expected_value.lower()
-        return actual_value == expected_value
+
+    # If expected_value is a list, check if actual_value is in expected_value
+    if isinstance(expected_value, list):
+        expected_value = [item.lower() for item in expected_value]
+        return any(item in expected_value for item in actual_value)
+
+    # If both are strings (or lists after processing), check for equality or containment
+    elif isinstance(expected_value, str):
+        return expected_value in actual_value
 
     # Return False by default if none of the above conditions are met
     return False
-

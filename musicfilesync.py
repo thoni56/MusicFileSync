@@ -46,7 +46,7 @@ def remove_non_audio_files(files):
 
 
 if __name__ == "__main__":
-    (updated, deleted) = sync("/home/thoni/Music", "/tmp/bugg", {"genre": ["bugg", "lindy"]})
+    (updated, deleted) = sync("/home/thoni/Music", "/tmp/bugg", {"genre": ["bugg", "boogie"]})
     print("Updated files:")
     print(updated)
     print("Deleted files:")
