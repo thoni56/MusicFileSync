@@ -1,5 +1,5 @@
 #! /bin/python
-from syncer import sync
+from .syncer import sync
 import argparse
 
 def main():

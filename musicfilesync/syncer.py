@@ -1,9 +1,9 @@
 import glob
 import os
 
-from metadata_filterer import filter_on_metadata
-from updater import update_files
-from cleaner import delete_nonexisting_files
+from .metadata_filterer import filter_on_metadata
+from .updater import update_files
+from .cleaner import delete_nonexisting_files
 
 def sync(source, destination, metadata_filters=None):
     """
