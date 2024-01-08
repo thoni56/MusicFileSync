@@ -1,23 +1,23 @@
 import unittest
 from unittest.mock import patch
 
-from musicfilesync import sync
+from syncer import sync
 
 class TestMusicFileSync(unittest.TestCase):
 
     def setUp(self):
-        self.patcher_for_glob_glob = patch("musicfilesync.glob.glob")
+        self.patcher_for_glob_glob = patch("syncer.glob.glob")
         self.glob_glob_mock = self.patcher_for_glob_glob.start()
         self.glob_glob_mock.return_value = []
-        self.patcher_for_filter_on_metadata = patch("musicfilesync.filter_on_metadata")
+        self.patcher_for_filter_on_metadata = patch("syncer.filter_on_metadata")
         self.filter_on_metadata_mock = self.patcher_for_filter_on_metadata.start()
         self.filter_on_metadata_mock.return_value = []
-        self.patcher_for_update_files = patch("musicfilesync.update_files")
+        self.patcher_for_update_files = patch("syncer.update_files")
         self.update_files_mock = self.patcher_for_update_files.start()
-        self.patcher_for_delete_nonexisting_files = patch("musicfilesync.delete_nonexisting_files")
+        self.patcher_for_delete_nonexisting_files = patch("syncer.delete_nonexisting_files")
         self.delete_nonexisting_files_mock = self.patcher_for_delete_nonexisting_files.start()
         self.delete_nonexisting_files_mock.return_value = []
-        self.patcher_for_os_isfile = patch("musicfilesync.os.path.isfile")
+        self.patcher_for_os_isfile = patch("syncer.os.path.isfile")
         self.os_isfile_mock = self.patcher_for_os_isfile.start()
         self.os_isfile_mock.return_value = True
 
