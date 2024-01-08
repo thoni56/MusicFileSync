@@ -1,6 +1,5 @@
 #! /bin/python
 from musicfilesync import sync
-
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -18,3 +17,4 @@ else:
     genres = None
 
 sync(source_dir, dest_dir, metadata_filters=genres)
+
