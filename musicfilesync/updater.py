@@ -6,6 +6,8 @@ def update_files(source, files, destination):
     updated_files = []
 
     for relative_path in files:
+        clear_line()
+        print(f"Updating {relative_path}\r")
         source_file = pathlib.Path(source) / relative_path
         destination_file = pathlib.Path(destination) / relative_path
 
@@ -29,3 +31,6 @@ def mtime_for(file):
     return os.stat(file).st_mtime
 
 
+def clear_line():
+    terminal_width = shutil.get_terminal_size((80, 20)).columns
+    print(' ' * terminal_width, end='\r')
