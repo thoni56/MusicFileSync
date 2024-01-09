@@ -1,12 +1,12 @@
 import unittest
 from unittest.mock import patch, MagicMock
 
-from metadata_filterer import filter_on_metadata
+from musicfilesync.metadata_filterer import filter_on_metadata
 
 class TestMetadataFiltererTest(unittest.TestCase):
 
     def setUp(self):
-        self.patcher_for_tinytag_get = patch("metadata_filterer.tinytag.get")
+        self.patcher_for_tinytag_get = patch("musicfilesync.metadata_filterer.tinytag.get")
         self.tinytag_get_mock = self.patcher_for_tinytag_get.start()
         self.tinytag_get_mock.return_value = MagicMock()
         pass

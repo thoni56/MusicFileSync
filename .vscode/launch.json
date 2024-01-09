@@ -8,7 +8,7 @@
             "name": "Python: MusicFileSync",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/musicfilesync",
+            "module": "musicfilesync.musicfilesync",
             "args": [
                 "--from",
                 "~/Music",

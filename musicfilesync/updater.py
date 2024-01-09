@@ -6,8 +6,6 @@ def update_files(source, files, destination):
     updated_files = []
 
     for relative_path in files:
-        clear_line()
-        print(f"Updating {relative_path}\r")
         source_file = pathlib.Path(source) / relative_path
         destination_file = pathlib.Path(destination) / relative_path
 
@@ -16,11 +14,15 @@ def update_files(source, files, destination):
 
         if destination_file.exists():
             if mtime_for(source_file) > mtime_for(destination_file):
+                clear_line()
+                print(f"Updating {relative_path}\r")
                 shutil.copy2(source_file, destination_file)
                 updated_files.append(relative_path)
             elif mtime_for(source_file) < mtime_for(destination_file):
                 print(f"Warning: Destination file {destination_file} is newer than source file {source_file}.")
         else:
+            clear_line()
+            print(f"Updating {relative_path}\r")
             shutil.copy2(source_file, destination_file)
             updated_files.append(relative_path)
     
