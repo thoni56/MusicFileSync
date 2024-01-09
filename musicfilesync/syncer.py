@@ -44,7 +44,10 @@ def get_all_source_files(path):
 
 
 def make_relative(files, path):
-    return [f.replace(path + '/', '') for f in files]
+    if not path.endswith('/'):
+        path = path+"/"
+    return [f.replace(path, '') for f in files]
+
 
 
 def remove_non_audio_files(files):
