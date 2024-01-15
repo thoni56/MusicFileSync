@@ -5,7 +5,7 @@ from .metadata_filterer import filter_on_metadata
 from .updater import update_files
 from .cleaner import delete_nonexisting_files
 
-def sync(source, destination, metadata_filters=None):
+def sync(source, destination, metadata_filters=None, verbose=False):
     """
     Syncs the source directory with the destination directory.
 
@@ -25,12 +25,12 @@ def sync(source, destination, metadata_filters=None):
     source_files = remove_non_audio_files(source_files)
     print(f"Found {len(source_files)} audio files in source directory.")
 
-    source_files = filter_on_metadata(source_files, metadata_filters)
+    source_files = filter_on_metadata(source_files, metadata_filters, verbose=verbose)
     print(f"Filtered out {len(source_files)} files based on metadata.")
 
     source_files = make_relative(source_files, source)
 
-    updated_files = update_files(source, source_files, destination)
+    updated_files = update_files(source, source_files, destination, verbose=verbose)
     print(f"Updated {len(updated_files)} files.")
 
     deleted_files = delete_nonexisting_files(destination, source_files)
