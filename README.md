@@ -13,5 +13,6 @@ available in the source.
 Assume you have a complete media library and you want to extract only
 music files which has "Genre" equal to "Rock" or "Blues".
 
-	musicfilesync source destination --genre=rock --genre=blues
+	musicfilesync --from source --to destination --genres=rock,blues
+
 
